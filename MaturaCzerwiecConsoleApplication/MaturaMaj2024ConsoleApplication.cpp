@@ -55,3 +55,92 @@ int main() {
 
     return 0;
 }
+
+
+bool checkA(bool board[5][5]) {
+    int blackCount = 0;
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
+            if (board[i][j]) blackCount++;
+        }
+    }
+    return blackCount <= 2;
+}
+
+bool checkB(bool board[4][4]) {
+    int blackCount = 0;
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            if (board[i][j]) blackCount++;
+        }
+    }
+    return blackCount >= 9;
+}
+
+int main() {
+    bool boardA[5][5] = {
+        {0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0},
+        {0, 0, 1, 0, 0},
+        {0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0}
+    };
+
+    bool boardB[4][4] = {
+        {1, 1, 1, 1},
+        {1, 1, 1, 1},
+        {1, 1, 0, 0},
+        {0, 0, 0, 0}
+    };
+
+    cout << "Wynik dla planszy a): " << (checkA(boardA) ? "FA£SZ" : "PRAWDA") << endl;
+    cout << "Wynik dla planszy b): " << (checkB(boardB) ? "PRAWDA" : "FA£SZ") << endl;
+
+    return 0;
+}
+
+int main() {
+    int n;
+    cout << "Podaj rozmiar planszy n x n: ";
+    cin >> n;
+
+    int maxCzarne = n * n;
+    cout << "Najwiêksza mo¿liwa liczba czarnych pól: " << maxCzarne << endl;
+
+    return 0;
+}
+
+int main() {
+    long long n;
+    cout << "Podaj nieujemn¹ liczbê ca³kowit¹ n: ";
+    cin >> n;
+
+    long long b = 1, c = 0;
+    int instructionCount = 0;
+
+    while (n > 0) {
+        int a = n % 10;
+        n /= 10;
+
+        if (a % 2 == 0) {
+            c = c + b * (a / 2);
+        }
+        else {
+            c = c + b;
+            instructionCount++;
+        }
+
+        b *= 10;
+    }
+
+    cout << "Wartoœæ dla c: " << c << endl;
+    cout << "Liczba wykonanych instrukcji c <- c + b: " << instructionCount << endl;
+
+    return 0;
+}
+
+int main() {
+    int c = 6 * 3 + 6 * 6 + 6 * 9;
+    std::cout << "c = " << c << std::endl;
+    return 0;
+}
