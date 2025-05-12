@@ -1,63 +1,110 @@
 #include <iostream>
 #include <fstream>
-#include <cmath>
-using namespace std;
+#include <vector>
 
-bool First(int n) {
-    if (n < 2) return false;
-    for (int i = 2; i * i <= n; i++) {
-        if (n % i == 0) return false;
-    }
-    return true;
+bool isPrime(int number)
+{
+	if (number < 2)
+		return false;
+
+	for (int i = 2; i <= sqrt(number); i++)
+	{
+		if (number % i == 0)
+		{
+			return false;
+		}
+	}
+	return true;
 }
 
-int reverseNumber(int n) {
-    int reversed = 0;
-    while (n > 0) {
-        reversed = reversed * 10 + n % 10;
-        n /= 10;
-    }
-    return reversed;
+int reversedNumber(int number)
+{
+	int reversed = 0;
+	while (number > 0)
+	{
+		reversed = reversed * 10 + number % 10;
+		number = number / 10;
+	}
+
+	return reversed;
 }
 
-int main() {
-    ifstream file("liczby.txt");
-    int numbers[100];
-    int count = 0;
+int main()
+{
+	setlocale(LC_CTYPE, "Polish");
+	std::ifstream file("przyklad.txt");
+	std::vector<int> numbers;
+	int number;
 
-    while (file >> numbers[count]) {
-        count++;
-    }
+	while (file >> number)
+	{
+		numbers.push_back(number);
+	}
 
-    cout << "Odwrócone liczby podzielne przez 17:";
-    for (int i = 0; i < count; i++) {
-        int reversed = reverseNumber(numbers[i]);
-        if (reversed % 17 == 0) {
-            cout << reversed << endl;
-        }
-    }
+	//Zadanie 1
+	for (int num : numbers)
+	{
+		if (reversedNumber(num) % 17 == 0)
+		{
+			std::cout << reversedNumber(num) << "\n";
+		}
+	}
 
-    cout << "Liczba ró¿ni¹ca siê najbardziej od swojej odwrotnoœci:";
-    int maxDiff = 0;
-    int original = 0, reversed = 0;
-    for (int i = 0; i < count; i++) {
-        int r = reverseNumber(numbers[i]);
-        int diff = abs(numbers[i] - r);
-        if (diff > maxDiff) {
-            maxDiff = diff;
-            original = numbers[i];
-            reversed = r;
-        }
-    }
-    cout << original << " " << reversed << endl;
+	//Zadanie 2
+	int maxDifference = 0;
+	int highest = 0;
+	int reversedNum;
 
-    cout << "Liczby pierwsze, których odwrotnoœæ jest równie¿ liczb¹ pierwsz¹: ";
-    for (int i = 0; i < count; i++) {
-        int r = reverseNumber(numbers[i]);
-        if (First(numbers[i]) && First(r)) {
-            cout << numbers[i] << endl;
-        }
-    }
+	for (int num : numbers)
+	{
+		reversedNum = reversedNumber(num);
+		int difference = abs(num - reversedNum);
 
-    return 0;
+		if (difference > maxDifference)
+		{
+			maxDifference = difference;
+			highest = num;
+		}
+	}
+
+	std::cout << highest << " " << maxDifference << "\n";
+
+	//Zadanie 3
+	for (int num : numbers)
+	{
+		int reversedNum = reversedNumber(num);
+		if (isPrime(num) && isPrime(reversedNum))
+		{
+			std::cout << num << "\n";
+		}
+	}
+
+	//Zadanie 4
+	std::vector<int> uniqueNumbers;
+	std::vector<int> occurrences;
+
+	for (int i = 0; i < numbers.size(); i++) {
+		bool found = false;
+		for (int j = 0; j < uniqueNumbers.size(); j++) {
+			if (uniqueNumbers[j] == numbers[i]) {
+				occurrences[j]++;
+				found = true;
+				break;
+			}
+		}
+		if (!found) {
+			uniqueNumbers.push_back(numbers[i]);
+			occurrences.push_back(1);
+		}
+	}
+
+	int uniqueCount = uniqueNumbers.size();
+	int countTwice = 0, countThrice = 0;
+
+	for (int i = 0; i < occurrences.size(); i++) {
+		if (occurrences[i] == 2) countTwice++;
+		if (occurrences[i] == 3) countThrice++;
+	}
+
+	std::cout << uniqueCount << " " << countTwice << " " << countThrice << "\n";
 }
